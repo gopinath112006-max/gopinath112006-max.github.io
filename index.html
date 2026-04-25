@@ -8,136 +8,146 @@
 <style>
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: Arial;
     background: #050510;
     color: white;
 }
 
-/* HEADER */
-.header {
-    text-align: center;
-    padding: 20px;
-    color: #00f0ff;
-}
-
-/* TRUST BAR */
-.trust {
-    background: #0a0a1a;
-    padding: 15px;
-    text-align: center;
-    font-size: 14px;
-}
-
-/* GRID */
-.grid {
+/* LOGIN PAGE */
+#loginPage {
+    height: 100vh;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
-/* CARD */
-.card {
-    width: 260px;
-    margin: 15px;
-    background: #111;
-    border-radius: 15px;
-    overflow: hidden;
+/* LOGO */
+.logo {
+    width: 200px;
+    margin-bottom: 20px;
 }
 
-.card img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-}
-
-.card-content {
-    padding: 15px;
-}
-
-.card h3 {
-    color: #00f0ff;
+/* INPUT */
+input {
+    padding: 10px;
+    margin: 10px;
+    width: 250px;
+    border-radius: 8px;
 }
 
 /* BUTTON */
 .btn {
-    padding: 10px;
+    padding: 10px 20px;
     background: #00f0ff;
     border: none;
     border-radius: 8px;
     cursor: pointer;
 }
 
-/* CONTACT */
-.contact {
-    text-align: center;
-    padding: 30px;
-    background: #0a0a1a;
-}
-
-/* WhatsApp */
-.whatsapp {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #25D366;
-    padding: 15px;
-    border-radius: 50%;
-    cursor: pointer;
+/* MAIN SITE */
+#mainSite {
+    display: none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-    <h1>ElectroHub</h1>
-    <p>Electronics • Projects • Custom Builds</p>
-</div>
+<!-- LOGIN PAGE -->
+<div id="loginPage">
 
-<div class="trust">
-    ✔ Trusted by students & hobbyists <br>
-    ✔ Affordable electronics & projects <br>
-    ✔ Fast response on WhatsApp
-</div>
+    <img src="logo.png" class="logo">
 
-<div class="grid">
+    <h2>Login / Sign Up</h2>
 
-    <div class="card">
-        <img src="resistor.jpg">
-        <div class="card-content">
-            <h3>Resistor Kit</h3>
-            <p>₹50</p>
-            <p>Used for basic circuits and learning electronics.</p>
-            <button class="btn" onclick="order('Resistor Kit')">Order</button>
-        </div>
-    </div>
+    <input type="text" id="userInput" placeholder="Enter Mobile or Email">
 
-    <div class="card">
-        <img src="arduino.jpg">
-        <div class="card-content">
-            <h3>Arduino Smart Light</h3>
-            <p>₹1500</p>
-            <p>Automatic light system using sensors.</p>
-            <button class="btn" onclick="order('Arduino Smart Light')">Buy</button>
-        </div>
-    </div>
+    <button class="btn" onclick="sendOTP()">Send OTP</button>
+
+    <input type="text" id="otp" placeholder="Enter OTP">
+
+    <button class="btn" onclick="login()">Login</button>
 
 </div>
 
-<div class="contact">
-    <h2>Contact</h2>
-    <p>📱 WhatsApp: +91 8668162267</p>
-    <p>⏱ Response within 1–2 hours</p>
-</div>
+<!-- MAIN WEBSITE -->
+<div id="mainSite">
 
-<div class="whatsapp" onclick="order('General Inquiry')">💬</div>
+    <h1 style="text-align:center;">ElectroHub</h1>
+
+    <p style="text-align:center;">Welcome to your electronics store</p>
+
+</div>
 
 <script>
-function order(product) {
-    let msg = encodeURIComponent("Hi, I want: " + product);
-    window.open("https://wa.me/918668162267?text=" + msg, "_blank");
+let generatedOTP = "";
+
+/* FAKE OTP */
+function sendOTP() {
+    generatedOTP = Math.floor(1000 + Math.random() * 9000);
+    alert("Your OTP is: " + generatedOTP); // simulation
+}
+
+function login() {
+    let entered = document.getElementById("otp").value;
+
+    if (entered == generatedOTP) {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("mainSite").style.display = "block";
+    } else {
+        alert("Wrong OTP");
+    }
+}
+</script>
+<!-- Your website content above -->
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDDVafLdrIxKuh808FoyL0sHGunCv2T_RI",
+  authDomain: "electrohub-b4d78.firebaseapp.com",
+  projectId: "electrohub-b4d78",
+  storageBucket: "electrohub-b4d78.firebasestorage.app",
+  messagingSenderId: "323473594100",
+  appId: "1:323473594100:web:b4deec66f4171640d2b0a1"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+function sendOTP() {
+    let phone = document.getElementById("userInput").value;
+
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('loginPage', {
+        size: 'invisible'
+    });
+
+    auth.signInWithPhoneNumber(phone, window.recaptchaVerifier)
+    .then(function (confirmationResult) {
+        window.confirmationResult = confirmationResult;
+        alert("OTP Sent!");
+    }).catch(function (error) {
+        alert(error.message);
+    });
+}
+
+function login() {
+    let code = document.getElementById("otp").value;
+
+    confirmationResult.confirm(code)
+    .then(function () {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("mainSite").style.display = "block";
+    }).catch(function () {
+        alert("Wrong OTP");
+    });
 }
 </script>
 
+</body>
+</html>
 </body>
 </html>
