@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ElectroHub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #050510;
+    color: white;
+}
+
+/* HEADER */
+.header {
+    text-align: center;
+    padding: 20px;
+    color: #00f0ff;
+}
+
+/* TRUST BAR */
+.trust {
+    background: #0a0a1a;
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* GRID */
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* CARD */
+.card {
+    width: 260px;
+    margin: 15px;
+    background: #111;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card h3 {
+    color: #00f0ff;
+}
+
+/* BUTTON */
+.btn {
+    padding: 10px;
+    background: #00f0ff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* CONTACT */
+.contact {
+    text-align: center;
+    padding: 30px;
+    background: #0a0a1a;
+}
+
+/* WhatsApp */
+.whatsapp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #25D366;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>ElectroHub</h1>
+    <p>Electronics • Projects • Custom Builds</p>
+</div>
+
+<div class="trust">
+    ✔ Trusted by students & hobbyists <br>
+    ✔ Affordable electronics & projects <br>
+    ✔ Fast response on WhatsApp
+</div>
+
+<div class="grid">
+
+    <div class="card">
+        <img src="resistor.jpg">
+        <div class="card-content">
+            <h3>Resistor Kit</h3>
+            <p>₹50</p>
+            <p>Used for basic circuits and learning electronics.</p>
+            <button class="btn" onclick="order('Resistor Kit')">Order</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="arduino.jpg">
+        <div class="card-content">
+            <h3>Arduino Smart Light</h3>
+            <p>₹1500</p>
+            <p>Automatic light system using sensors.</p>
+            <button class="btn" onclick="order('Arduino Smart Light')">Buy</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="contact">
+    <h2>Contact</h2>
+    <p>📱 WhatsApp: +91 8668162267</p>
+    <p>⏱ Response within 1–2 hours</p>
+</div>
+
+<div class="whatsapp" onclick="order('General Inquiry')">💬</div>
+
+<script>
+function order(product) {
+    let msg = encodeURIComponent("Hi, I want: " + product);
+    window.open("https://wa.me/918668162267?text=" + msg, "_blank");
+}
+</script>
+
+</body>
+</html>
